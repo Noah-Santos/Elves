@@ -25,17 +25,14 @@ class Box{
         this.small = Math.min(this.l, this.w, this.h);
         this.large = Math.max(this.l, this.w, this.h);
         this.medium = 0;
-        // console.log(this.small);
-        // console.log(this.large);
         // looks to see if width is middle value
-        // if(this.l != this.small && this.l != this.large){
-        //     this.medium = this.l;
-            
-        // }else if(this.w != this.small && this.w != this.large){
-        //     this.medium = this.w;
-        // }else if(this.h != this.small && this.h != this.large){
-        //     this.medium = this.h;
-        // }
+        if(this.l != this.small && this.l != this.large){
+            this.medium = this.l;
+        }else if(this.w != this.small && this.w != this.large){
+            this.medium = this.w;
+        }else if(this.h != this.small && this.h != this.large){
+            this.medium = this.h;
+        }
         if(this.medium == 0){
             if((this.l == this.w || this.l == this.h)){
                 if(this.l == this.small){
@@ -57,9 +54,6 @@ class Box{
                 }
             }
         }
-        console.log(this.small)
-        console.log(this.large)
-        console.log(this.medium);
     }
 }
 // creates array to hold objects and 2 variables to hold volume and surface area
