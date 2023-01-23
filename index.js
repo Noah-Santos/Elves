@@ -2,7 +2,6 @@ let dimensions = "3x11x24 13x5x19 1x9x27 24x8x21 6x8x17 19x18x22 10x9x12 12x2x5 
 
 // splits the string into an array where each value is a number
 let boxes = dimensions.split(/[x ]/);
-// console.log(boxes);
 // creates a class to create box objects
 class Box{
     // creates the box with properties of length, width, and height
@@ -25,7 +24,7 @@ class Box{
         this.small = Math.min(this.l, this.w, this.h);
         this.large = Math.max(this.l, this.w, this.h);
         this.medium = 0;
-        // looks to see if width is middle value
+        // looks to see which vallue os the medium
         if(this.l != this.small && this.l != this.large){
             this.medium = this.l;
         }else if(this.w != this.small && this.w != this.large){
@@ -33,6 +32,7 @@ class Box{
         }else if(this.h != this.small && this.h != this.large){
             this.medium = this.h;
         }
+        // if value is not found, checks for duplicates
         if(this.medium == 0){
             if((this.l == this.w || this.l == this.h)){
                 if(this.l == this.small){
@@ -55,23 +55,55 @@ class Box{
             }
         }
     }
+    // finds which side is smaller and returns it
+    findPaper(){
+        if(this.w <= this.l)return this.w;
+        if(this.l < this.w)return this.l;
+    }
+    // finds perimeter of 2 smallerst sides and returns the sum
+    findBow(){
+        return (2*this.small + 2*this.medium)+(2*this.small + 2*this.large);
+    }
 }
-// creates array to hold objects and 2 variables to hold volume and surface area
+// creates array to hold objects and 2 variables to hold volume, surface area, paper amount, and ribbon length
 let array = [];
 let volume = 0;
 let surface = 0;
+let paper = 0;
+let ribbon = 0;
+// puts volume on screen
+function getVolume(){
+    document.getElementById("output1").innerHTML = `${volume} feet^3`;
+}
+// puts surface area on screen
+function getSA(){
+    document.getElementById("output2").innerHTML = `${surface} feet^2`;
+}
+// puts paper amount on screen
+function getWrapPaper(){
+    document.getElementById("output3").innerHTML = `${paper} feet`;
+}
+// puts ribbon length on screen
+function getRib(){
+    document.getElementById("output4").innerHTML = `${ribbon} feet`;
+}
 // loops through entire box array and skips over 2 values each iteration
 for(let i = 0;i<boxes.length;i+=3)
 {
     // creates a new box using 3 array values at a time
     let temp = new Box(boxes[i], boxes[i+1], boxes[i+2]);
-    // adds surface area and volume
+    // adds surface area, volume, and total paper
     volume += temp.volume();
     temp.findSides();
     surface += temp.surface();
+    paper += Number(temp.findPaper());
+    // finds the ribbon length
+    ribbon += temp.findBow(); + temp.volume()
     // adds object to the array
     array.push(temp);
 }
-// console.log(array)
-console.log(volume);
-console.log(surface);
+// prints results
+// console.log(volume);
+// console.log(surface);
+// console.log(paper);
+// console.log(ribbon);
