@@ -23,42 +23,17 @@ class Box{
         // gets min and max and creates property for it
         this.small = Math.min(this.l, this.w, this.h);
         this.large = Math.max(this.l, this.w, this.h);
-        this.medium = 0;
-        // looks to see which vallue os the medium
-        if(this.l != this.small && this.l != this.large){
-            this.medium = this.l;
-        }else if(this.w != this.small && this.w != this.large){
-            this.medium = this.w;
-        }else if(this.h != this.small && this.h != this.large){
-            this.medium = this.h;
-        }
-        // if value is not found, checks for duplicates
-        if(this.medium == 0){
-            if((this.l == this.w || this.l == this.h)){
-                if(this.l == this.small){
-                    this.medium = this.small;
-                }else{
-                    this.medium = this.large;
-                }
-            }else if((this.w == this.l || this.w == this.h)){
-                if(this.w == this.small){
-                    this.medium = this.small;
-                }else{
-                    this.medium = this.large;
-                }
-            }else if((this.h == this.l || this.h == this.w)){
-                if(this.h == this.small){
-                    this.medium = this.small;
-                }else{
-                    this.medium = this.large;
-                }
-            }
-        }
+        let dimensions = [this.l, this.w, this.h];
+        // .sort will sort the elements in ascending order
+        // if a is less than b and returns a negative number, a will stay before b
+        // if 0 is returned, no sorting is done
+        // if a is greater than b and a positive is returned, a will be put after b
+        dimensions.sort((a,b) => a-b);
+        this.medium = dimensions[1];
     }
     // finds which side is smaller and returns it
     findPaper(){
-        if(this.w <= this.l)return this.w;
-        if(this.l < this.w)return this.l;
+        return (Number(2*this.small + this.large) <= Number(2*this.medium + 2*this.small)) ? Number(2*this.small + this.large) : Number(2*this.medium + 2*this.small);
     }
     // finds perimeter of 2 smallerst sides and returns the sum
     findBow(){
@@ -96,14 +71,14 @@ for(let i = 0;i<boxes.length;i+=3)
     volume += temp.volume();
     temp.findSides();
     surface += temp.surface();
-    paper += Number(temp.findPaper());
+    paper += (temp.findPaper());
     // finds the ribbon length
-    ribbon += temp.findBow(); + temp.volume()
+    ribbon += temp.findBow() + temp.volume();
     // adds object to the array
     array.push(temp);
 }
 // prints results
-// console.log(volume);
-// console.log(surface);
-// console.log(paper);
-// console.log(ribbon);
+console.log(`THe volume of the presents: ${volume} feet^3`);
+console.log(`The surface area of the presents: ${surface} feet^2`);
+console.log(`The wrapping paper needed: ${paper} feet`);
+console.log(`The ribbon length needed: ${ribbon} feet`);
